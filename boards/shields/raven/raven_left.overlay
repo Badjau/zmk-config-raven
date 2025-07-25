@@ -18,10 +18,6 @@
     };
 };
 
-&default_transform {
-    col-offset = <6>;
-};
-
 &kscan0 {
     row-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
                 <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
