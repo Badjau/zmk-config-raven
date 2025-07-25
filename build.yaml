@@ -19,7 +19,9 @@
 #
 ---
 include:
-  - board: raven_left
+  - board: nice_nano_v2
+  - shield: raven_left
     # snippet: zmk-usb-logging  # uncomment to enable logging
-  - board: raven_right
+  - board: nice_nano_v2
+  - shield: raven_right
     artifact-name: raven
