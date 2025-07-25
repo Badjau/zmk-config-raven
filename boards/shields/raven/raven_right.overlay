@@ -27,7 +27,7 @@
                 <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
                 <&gpio1 6  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
                 <&gpio1 4  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-                
+    
     col-gpios = <&gpio0 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
                 <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
                 <&gpio0 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
@@ -47,7 +47,7 @@
 
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
-        reg = <0x3c>;
+        reg = <0x3d>;
         label = "DISPLAY";
         width = <128>;
         height = <32>;
