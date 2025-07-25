@@ -20,10 +20,6 @@
 ---
 include:
   - board: raven_left
-  - board: raven_right
-
-include:
-  - board: raven_left
     # snippet: zmk-usb-logging  # uncomment to enable logging
   - board: raven_v2_right
     artifact-name: raven
