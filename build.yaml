@@ -24,4 +24,5 @@ include:
     # snippet: zmk-usb-logging  # uncomment to enable logging
   - board: nice_nano_v2
     shield: raven_right
-    artifact-name: raven
+  - board: nice_nano_v2
+    shield: settings_reset
