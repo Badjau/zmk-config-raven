@@ -1,0 +1,5 @@
+config SHIELD_RAVEN_LEFT
+    def_bool $(shields_list_contains,raven_left)
+
+config SHIELD_RAVEN_RIGHT
+    def_bool $(shields_list_contains,raven_right)
