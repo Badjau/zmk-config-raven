@@ -1,0 +1,60 @@
+#include "raven.dtsi"
+
+&pinctrl {
+    // Custom I2C configuration for SuperMini nRF52840
+    i2c0_custom_default: i2c0_custom_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,  // D13 - P1.13 (SDA)
+                    <NRF_PSEL(TWIM_SCL, 0, 15)>;  // D14 - P0.11 (SCL)
+        };
+    };
+
+    i2c0_custom_sleep: i2c0_custom_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,  // D13 - P1.13 (SDA)
+                    <NRF_PSEL(TWIM_SCL, 0, 15)>;  // D14 - P0.11 (SCL)
+            low-power-enable;
+        };
+    };
+};
+
+&kscan0 {
+    row-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio1 6  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio1 4  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+
+    col-gpios = <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 20 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 29 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 2  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+};
+
+
+&i2c0 {
+    compatible = "nordic,nrf-twim";
+    status = "okay";
+    pinctrl-0 = <&i2c0_custom_default>;
+    pinctrl-1 = <&i2c0_custom_sleep>;
+    pinctrl-names = "default", "sleep";
+    clock-frequency = <I2C_BITRATE_STANDARD>;
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        label = "DISPLAY";
+        width = <128>;
+        height = <32>;
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <31>;
+        segment-remap;
+        com-invdir;
+        com-sequential;
+        prechargep = <0x22>;
+        inversion-on;
+    };
+};
