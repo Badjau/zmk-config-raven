@@ -30,6 +30,7 @@
             /* SDA: P1.00 (D6), SCL: P0.11 (D7) */
             psels = <NRF_PSEL(TWIM_SDA, 1, 0)>,
                     <NRF_PSEL(TWIM_SCL, 0, 11)>;
+            bias-pull-up; /* Add pull-up resistors */
         };
     };
 
@@ -37,6 +38,7 @@
         group1 {
             psels = <NRF_PSEL(TWIM_SDA, 1, 0)>,
                     <NRF_PSEL(TWIM_SCL, 0, 11)>;
+            bias-pull-up;
             low-power-enable;
         };
     };
