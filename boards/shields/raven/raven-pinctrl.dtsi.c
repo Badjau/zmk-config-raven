@@ -1,0 +1,148 @@
+/*
+ * Copyright (c) 2024 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+&pinctrl {
+    /* SPI Configuration using dedicated SPI pins */
+    spi0_default: spi0_default {
+        group1 {
+            /* SCK: P0.17 (D2), MOSI: P0.22 (D4), MISO: P0.20 (D3) */
+            psels = <NRF_PSEL(SPIM_SCK, 0, 17)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 22)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;
+        };
+    };
+
+    spi0_sleep: spi0_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 17)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 22)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 20)>;
+            low-power-enable;
+        };
+    };
+
+    /* I2C Configuration using dedicated I2C pins */
+    i2c0_default: i2c0_default {
+        group1 {
+            /* SDA: P1.00 (D6), SCL: P0.11 (D7) */
+            psels = <NRF_PSEL(TWIM_SDA, 1, 0)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 11)>;
+        };
+    };
+
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 0)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 11)>;
+            low-power-enable;
+        };
+    };
+
+    /* Alternative I2C Configuration using secondary I2C pins */
+    i2c1_default: i2c1_default {
+        group1 {
+            /* SDA1: P1.13 (D13), SCL1: P1.15 (D14) */
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 1, 15)>;
+        };
+    };
+
+    i2c1_sleep: i2c1_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 1, 15)>;
+            low-power-enable;
+        };
+    };
+
+    /* UART Configuration */
+    uart0_default: uart0_default {
+        group1 {
+            /* TX: P0.06 (D0), RX: P0.08 (D1) */
+            psels = <NRF_PSEL(UART_TX, 0, 6)>,
+                    <NRF_PSEL(UART_RX, 0, 8)>;
+        };
+        group2 {
+            /* RX pin with pull-up for reliable communication */
+            psels = <NRF_PSEL(UART_RX, 0, 8)>;
+            bias-pull-up;
+        };
+    };
+
+    uart0_sleep: uart0_sleep {
+        group1 {
+            psels = <NRF_PSEL(UART_TX, 0, 6)>,
+                    <NRF_PSEL(UART_RX, 0, 8)>;
+            low-power-enable;
+        };
+        group2 {
+            psels = <NRF_PSEL(UART_RX, 0, 8)>;
+            bias-pull-up;
+            low-power-enable;
+        };
+    };
+
+    /* Alternative UART Configuration using high-frequency pins */
+    uart1_default: uart1_default {
+        group1 {
+            /* Using P1.04 (D8) as TX, P1.06 (D9) as RX - both high-frequency pins */
+            psels = <NRF_PSEL(UART_TX, 1, 4)>,
+                    <NRF_PSEL(UART_RX, 1, 6)>;
+        };
+        group2 {
+            psels = <NRF_PSEL(UART_RX, 1, 6)>;
+            bias-pull-up;
+        };
+    };
+
+    uart1_sleep: uart1_sleep {
+        group1 {
+            psels = <NRF_PSEL(UART_TX, 1, 4)>,
+                    <NRF_PSEL(UART_RX, 1, 6)>;
+            low-power-enable;
+        };
+        group2 {
+            psels = <NRF_PSEL(UART_RX, 1, 6)>;
+            bias-pull-up;
+            low-power-enable;
+        };
+    };
+
+    /* PWM Configuration for potential RGB or other PWM uses */
+    pwm0_default: pwm0_default {
+        group1 {
+            /* Using P0.31 (D17) as an example PWM pin */
+            psels = <NRF_PSEL(PWM_OUT0, 0, 31)>;
+        };
+    };
+
+    pwm0_sleep: pwm0_sleep {
+        group1 {
+            psels = <NRF_PSEL(PWM_OUT0, 0, 31)>;
+            low-power-enable;
+        };
+    };
+
+    /* Additional SPI configuration for displays or other peripherals */
+    spi1_default: spi1_default {
+        group1 {
+            /* Alternative SPI using different pins if needed */
+            /* Using P1.04 (D8) as SCK, P1.06 (D9) as MOSI, P1.11 (D12) as MISO */
+            psels = <NRF_PSEL(SPIM_SCK, 1, 4)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 6)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 11)>;
+        };
+    };
+
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 4)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 6)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 11)>;
+            low-power-enable;
+        };
+    };
+};

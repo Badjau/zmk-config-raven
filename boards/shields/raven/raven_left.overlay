@@ -1,4 +1,5 @@
 #include "raven.dtsi"
+#include "raven-pinctrl.dtsi"
 
 &kscan0 {
     row-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
@@ -14,8 +15,13 @@
                 <&gpio0 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
 
-&pro_micro_i2c {
+&i2c0 {
+    compatible = "nordic,nrf-twim";
     status = "okay";
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
+    clock-frequency = <I2C_BITRATE_FAST>;
 
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
