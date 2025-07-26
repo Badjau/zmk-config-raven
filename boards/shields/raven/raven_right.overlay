@@ -38,7 +38,9 @@
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
-        com-sequential;
+        com-alternative;
+        segment-remap;
+        com-invdir;
         prechargep = <0x22>;
     };
 };
