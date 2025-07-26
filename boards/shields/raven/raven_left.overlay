@@ -18,10 +18,10 @@
 &i2c0 {
     compatible = "nordic,nrf-twim";
     status = "okay";
-    pinctrl-0 = <&i2c1_default>;
-    pinctrl-1 = <&i2c1_sleep>;
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
-    clock-frequency = <I2C_BITRATE_STANDARD>; // 100kHz - try slower first
+    clock-frequency = <I2C_BITRATE_FAST>; 
 
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
@@ -37,6 +37,5 @@
         com-invdir;
         com-sequential;
         prechargep = <0x22>;
-        // Try without inversion-on first
     };
 };
