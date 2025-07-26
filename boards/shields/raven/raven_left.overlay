@@ -23,9 +23,9 @@
     pinctrl-names = "default", "sleep";
     clock-frequency = <I2C_BITRATE_STANDARD>;
 
-    oled: ssd1306@3c {
+    oled: ssd1306@3d {
         compatible = "solomon,ssd1306fb";
-        reg = <0x3c>;
+        reg = <0x3d>;
         label = "DISPLAY";
         width = <128>;
         height = <32>;
