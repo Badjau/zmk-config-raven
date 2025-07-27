@@ -15,19 +15,18 @@
             mt: mod_tap {
                 compatible = "zmk,behavior-hold-tap";
                 #binding-cells = <2>;
-                tapping-term-ms = <200>;
+                tapping-term-ms = <140>;
                 bindings = <&kp>, <&skq>;
                 flavor = "hold-preferred";
                 hold-while-undecided;
                 hold-while-undecided-linger;  // prevents shift release between hold and sticky
-                display-name = "Mod-Tap";
             };
 
             skq: sticky_key_quick_release {
                 compatible = "zmk,behavior-sticky-key";
                 #binding-cells = <1>;
                 bindings = <&kp>;
-                release-after-ms = <500>;
+                release-after-ms = <250>;
                 quick-release;
                 ignore-modifiers;
             };
@@ -36,7 +35,7 @@
                 compatible = "zmk,behavior-sticky-key";
                 #binding-cells = <1>;
                 bindings = <&kp>;
-                release-after-ms = <500>;
+                release-after-ms = <250>;
                 ignore-modifiers;
                 lazy;
             };
@@ -53,7 +52,7 @@
                 compatible = "zmk,behavior-hold-tap";
                 label = "WIN_Z _HOLD_TAP";
                 #binding-cells = <2>;
-                tapping-term-ms = <200>; //hold timer to send hold key
+                tapping-term-ms = <140>; //hold timer to send hold key
                 quick-tap-ms = <500>; //when tapped within timer, disable hold and send tap; for repeated presses
                 require-prior-idle-ms = <125>; //When key press before timer, disable hold
                 flavor = "tap-preferred";
@@ -74,7 +73,7 @@
                 compatible = "zmk,behavior-tap-dance";
                 label = "TAP_DANCE_LAYER";
                 #binding-cells = <0>;
-                tapping-term-ms = <250>;
+                tapping-term-ms = <140>;
                 bindings = <&sl 2>, <&to 2>;    // First tap = sticky layer 2, double tap = switch to layer 2
             };
 
@@ -82,7 +81,7 @@
                 compatible = "zmk,behavior-hold-tap";
                 label = "STICKY_MOMENTARY_LAYER";
                 #binding-cells = <2>;
-                tapping-term-ms = <250>;
+                tapping-term-ms = <140>;
                 quick-tap-ms = <0>;
                 flavor = "balanced";
                 bindings = <&mo>, <&td_layer1>;  // Hold for momentary, tap for tap-dance behavior ex:&slmo 1 2
@@ -92,7 +91,7 @@
                 compatible = "zmk,behavior-tap-dance";
                 label = "TAP_DANCE_LAYER2";
                 #binding-cells = <0>;
-                tapping-term-ms = <250>;
+                tapping-term-ms = <140>;
                 bindings = <&not_so_sticky 3>, <&to 3>;    // First tap = sticky layer 1, double tap = switch to layer 1
             };
 
@@ -100,7 +99,7 @@
                 compatible = "zmk,behavior-hold-tap";
                 label = "STICKY_MOMENTARY_LAYER2";
                 #binding-cells = <2>;
-                tapping-term-ms = <250>;
+                tapping-term-ms = <140>;
                 quick-tap-ms = <0>;
                 flavor = "balanced";
                 bindings = <&mo>, <&td_layer2>;  // Hold for momentary, tap for tap-dance behavior ex:&slmo 1 2
@@ -110,7 +109,7 @@
                 compatible = "zmk,behavior-tap-dance";
                 label = "ALT_ENTER";
                 #binding-cells = <0>;
-                tapping-term-ms = <250>;
+                tapping-term-ms = <140>;
                 bindings = <&kp LALT>, <&kp ENTER>;    // First tap = LALT, double tap = ENTER
             };
         };
