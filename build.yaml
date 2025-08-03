@@ -20,15 +20,9 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: raven_left
+    shield: raven_left nice_oled
     # snippet: zmk-usb-logging  # uncomment to enable logging
   - board: nice_nano_v2
-    shield: raven_right  
+    shield: raven_right nice_oled  
   # - board: nice_nano_v2
   # shield: settings_reset
-  ---
-include:
-  - board: nice_nano_v2
-    shield: raven_left nice_oled
-  - board: nice_nano_v2
-    shield: raven_right nice_oled
