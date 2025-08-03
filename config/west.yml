@@ -3,7 +3,7 @@ manifest:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
     # support nice_oled and nice_epaper
-    - name: Badjau
+    - name: badjau
       url-base: https://github.com/badjau
     # Additional modules containing boards/shields/custom code can be listed here as well
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
@@ -14,7 +14,7 @@ manifest:
       import: app/west.yml
     - name: zmk-nice-oled
       remote: badjau
-      revision: raven
+      revision: main
   self:
     path: config  
     
