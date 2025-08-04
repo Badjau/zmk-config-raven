@@ -14,7 +14,7 @@ manifest:
       import: app/west.yml
     - name: zmk-nice-oled
       remote: badjau
-      revision: main
+      revision: raven
   self:
     path: config  
     
