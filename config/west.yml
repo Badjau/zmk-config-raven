@@ -12,9 +12,9 @@ manifest:
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: zmk-nice-oled
+    - name: zmk-hid-oled
       remote: badjau
-      revision: raven
+      revision: main
   self:
     path: config  
       
