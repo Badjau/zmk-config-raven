@@ -5,6 +5,12 @@
  */
 
 &pinctrl {
+    /* USB Logging */
+    zephyr_udc0: usbd@deadbeef {
+        compatible = "vnd,usb-device";
+        /* ... */
+    };
+
     /* SPI Configuration using dedicated SPI pins */
     spi0_default: spi0_default {
         group1 {
