@@ -40,8 +40,10 @@
         prechargep = <0x22>;
         inversion-on;
     };
-};   
+};  
 
+/* USB Logging
 zephyr_udc0: &usbd {
     status = "okay";
 };
+ */
