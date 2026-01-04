@@ -124,7 +124,7 @@
             spc_del {
                 timeout-ms = <50>;
                 key-positions = <29 38>;   // B + SPC   
-                bindings = <&tog 2>;     // toggle layer 2
+                bindings = <&kp DEL>;
             };
         };
         
