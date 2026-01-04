@@ -4,14 +4,6 @@
 //https://zmk.dev/docs/keymaps/behaviors/sticky-key
     / {
         behaviors {
-            alt_f4: alt_f4_morph {
-                compatible = "zmk,behavior-mod-morph";
-                #binding-cells = <0>;
-                bindings = <&kp E>, <&kp F4>;
-                mods = <(MOD_LALT|MOD_RALT)>;
-                keep-mods = <(MOD_LALT|MOD_RALT)>;
-            };
-
             mt: mod_tap {
                 compatible = "zmk,behavior-hold-tap";
                 #binding-cells = <2>;
@@ -38,14 +30,6 @@
                 release-after-ms = <250>;
                 ignore-modifiers;
                 lazy;
-            };
-            
-            spc_del: space_delete {
-                compatible = "zmk,behavior-mod-morph";
-                #binding-cells = <0>;
-                bindings = <&kp SPACE>, <&kp DELETE>;
-                mods = <(MOD_LSFT|MOD_RSFT)>;
-                keep-mods = <(MOD_RSFT)>;
             };
     
             win_z: win_z_hold_tap {
@@ -104,14 +88,7 @@
                 flavor = "balanced";
                 bindings = <&mo>, <&td_layer2>;  // Hold for momentary, tap for tap-dance behavior ex:&slmo 1 2
             };
-        
-            altenter: alt_enter {
-                compatible = "zmk,behavior-tap-dance";
-                label = "ALT_ENTER";
-                #binding-cells = <0>;
-                tapping-term-ms = <140>;
-                bindings = <&kp LALT>, <&kp ENTER>;    // First tap = LALT, double tap = ENTER
-            };
+
         };
         macros {
             sleep_macro: sleep_macro {
@@ -139,6 +116,15 @@
                 bindings = <&kp CAPSLOCK>;
                 layers = <0 1 2 3 4>;
             };
+            layer_lock {
+                timeout-ms = <50>;
+                key-positions = <36 37>;   // ALT + NUM
+                bindings = <&tog 2>;       // toggle layer 2
+            };
+            spc_del {
+                timeout-ms = <50>;
+                key-positions = <29 38>;   // B + SPC   
+                bindings = <&tog 2>;     // toggle layer 2
         };
         
         keymap {    
@@ -149,7 +135,7 @@
                     &kp TAB             &kp Q           &kp W       &alt_f4     &kp R       &kp T       &kp Y      &kp U        &kp I       &kp O       &kp P       &kp BSLH  
                     &mt LSHFT LSHFT     &kp A           &kp S       &kp D       &kp F       &kp G       &kp H      &kp J        &kp K       &kp L       &kp SEMI    &kp APOS   
                     &mt LCTRL LCTRL     &win_z LGUI Z   &kp X       &kp C       &kp V       &kp B       &kp N      &kp M        &kp COMMA   &kp DOT     &kp SLASH   &mo 5 
-                                                                    &altenter   &slmo1 2 2  &spc_del    &kp BSPC   &slmo2 4 4   &kp ENTER            
+                                                                    &kp lalt    &slmo1 2 2  &kp SPACE   &kp BSPC   &slmo2 4 4   &kp ENTER            
                 >;
             };
             // Layer 1 (Activated on Tap)
@@ -169,7 +155,7 @@
                     &kp GRAVE       &kp N1      &kp N2      &kp N3      &kp N4      &kp N5      &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp GRAVE 
                     &skl LSHFT      &kp EXCL    &kp AT      &kp HASH    &kp DLLR    &kp PRCNT   &kp CARET   &kp AMPS    &kp STAR    &kp LPAR    &kp RPAR    &kp MINUS
                     &skl LCTRL      &kp LEFT    &kp UP      &kp DOWN    &kp RIGHT   &kp BSPC    &kp LBKT    &kp RBKT    &trans      &trans      &trans      &kp EQUAL
-                                                            &altenter   &to 0       &trans      &trans      &to 0       &trans       
+                                                            &kp lalt    &to 0       &trans      &trans      &to 0       &trans       
                 >;
             };
 
