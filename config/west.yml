@@ -10,7 +10,7 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: "v0.2.1" #default is "main" 
+      revision: "v0.1.2" #default is "main" 
       import: app/west.yml
     - name: zmk-nice-oled
       remote: badjau
