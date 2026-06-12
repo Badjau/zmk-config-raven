@@ -4,12 +4,6 @@
 //https://zmk.dev/docs/keymaps/behaviors/sticky-key
     / {
         behaviors {
-            hid_fwd: hid_fwd {
-                compatible = "zmk,behavior-hid-fwd";
-                label = "HID_FWD";
-                #binding-cells = <0>;
-            };
-            
             mt: mod_tap {
                 compatible = "zmk,behavior-hold-tap";
                 #binding-cells = <2>;
