@@ -47,7 +47,7 @@ zephyr_udc0: &usbd {
     behaviors {
         hid_fwd: hid_fwd {
             compatible = "zmk,behavior-hid-fwd";
-            label = "HID_FWD";
+            //label = "HID_FWD";
             #binding-cells = <0>;
         };
     };
