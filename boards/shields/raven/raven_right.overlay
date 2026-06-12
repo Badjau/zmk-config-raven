@@ -45,3 +45,12 @@
 zephyr_udc0: &usbd {
     status = "okay";
 };
+
+/ {
+    behaviors {
+        hid_fwd: hid_fwd {
+            compatible = "zmk,behavior-hid-fwd";
+            #binding-cells = <0>;
+        };
+    };
+};  
