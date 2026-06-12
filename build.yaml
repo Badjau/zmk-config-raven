@@ -4,3 +4,4 @@ include:
     snippet: zmk-usb-logging
   - board: nice_nano_v2
     shield: raven_right nice_oled
+    snippet: zmk-usb-logging
