@@ -20,8 +20,9 @@
         };
 
         &soft_off {
-            split-peripheral-off-on-press; //prevents the peripheral not catching the sleep command; peripheral now sleeps immediately on soft_off.
-        }
+            hold-time-ms = <250>; // 'fix' for peripheral not catching sleep command sometimes
+            split-peripheral-off-on-press; // peripheral sleeps first, then central after delay
+        };
 
         skq: sticky_key_quick_release {
             compatible = "zmk,behavior-sticky-key";
