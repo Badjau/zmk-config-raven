@@ -18,12 +18,6 @@
             hold-while-undecided;
             hold-while-undecided-linger;  // prevents shift release between hold and sticky
         };
-
-        soft_off: soft_off {
-            compatible = "zmk,behavior-soft-off";
-            hold-time-ms = <250>; // 'fix' for peripheral not catching sleep command sometimes
-            split-peripheral-off-on-press; // peripheral sleeps first, then central after delay
-        };
             
         skq: sticky_key_quick_release {
             compatible = "zmk,behavior-sticky-key";
@@ -217,3 +211,8 @@
         };
     };
 };  
+
+&soft_off {
+    hold-time-ms = <250>;
+    split-peripheral-off-on-press;
+};
