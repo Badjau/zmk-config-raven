@@ -19,6 +19,10 @@
             hold-while-undecided-linger;  // prevents shift release between hold and sticky
         };
 
+        &soft_off {
+            split-peripheral-off-on-press; //prevents the peripheral not catching the sleep command; peripheral now sleeps immediately on soft_off.
+        }
+
         skq: sticky_key_quick_release {
             compatible = "zmk,behavior-sticky-key";
             #binding-cells = <1>;
