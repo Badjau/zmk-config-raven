@@ -36,7 +36,7 @@
     keys {
         compatible = "gpio-keys";
         wakeup_key: wakeup_key {
-            gpios = <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+            gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
     };
 
@@ -46,7 +46,7 @@
         wakeup-source;
         // extra-gpios lists the OUTPUT pins (rows) that need to be active
         // for this specific key to register. For RC(0,0), row 0 = &gpio1 11
-        extra-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        extra-gpios = <&gpio1 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
 
     soft_off_wakers {
