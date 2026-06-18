@@ -36,7 +36,8 @@
     keys {
         compatible = "gpio-keys";
         wakeup_key: wakeup_key {
-            gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+            //gpio col for F and J
+            gpios = <&gpio0 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
     };
 
@@ -44,9 +45,8 @@
         compatible = "zmk,gpio-key-wakeup-trigger";
         trigger = <&wakeup_key>;
         wakeup-source;
-        // extra-gpios lists the OUTPUT pins (rows) that need to be active
-        // for this specific key to register. For RC(0,0), row 0 = &gpio1 11
-        extra-gpios = <&gpio1 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        //gpio row for F and J
+        extra-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
 
     soft_off_wakers {
