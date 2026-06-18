@@ -31,3 +31,26 @@
         col-gpios = <>, <>, <>, <>, <>, <>;
     };
 };
+
+/ {
+    keys {
+        compatible = "gpio-keys";
+        wakeup_key: wakeup_key {
+            gpios = <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        };
+    };
+
+    wakeup_trigger: wakeup_trigger {
+        compatible = "zmk,gpio-key-wakeup-trigger";
+        trigger = <&wakeup_key>;
+        wakeup-source;
+        // extra-gpios lists the OUTPUT pins (rows) that need to be active
+        // for this specific key to register. For RC(0,0), row 0 = &gpio1 11
+        extra-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    };
+
+    soft_off_wakers {
+        compatible = "zmk,soft-off-wakeup-sources";
+        wakeup-sources = <&wakeup_trigger>;
+    };
+};
