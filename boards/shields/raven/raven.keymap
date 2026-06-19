@@ -134,15 +134,15 @@
         };
         */
         xcut_layer {
-            timeout-ms = <50>;
+            timeout-ms = <250>;
             key-positions = <34 35>;   // SLASH + LSHFT   
             bindings = <&mo 5>;
         };
 
         alt_f4 {
-            timeout-ms = <150>;
+            timeout-ms = <500>;
             key-positions = <3 16 36>;   // ALT + E + F   (ALT F + 4 hehe)
-            bindings = <&mo 5>;
+            bindings = <&kp LA(F4)>;  // Alt + F4 https://zmk.dev/docs/keymaps/modifiers
         };
     };
 
@@ -213,6 +213,6 @@
 };  
 
 &soft_off {
-    hold-time-ms = <250>;
-    split-peripheral-off-on-press;
+    hold-time-ms = <50>; // 'fix' for peripheral not catching sleep command sometimes
+    split-peripheral-off-on-press; // peripheral sleeps first, then central after delay
 };
