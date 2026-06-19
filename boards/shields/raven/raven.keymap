@@ -140,8 +140,9 @@
         };
 
         alt_f4 {
-            timeout-ms = <500>;
-            key-positions = <3 16 36>;   // ALT + E + F   (ALT F + 4 hehe)
+            timeout-ms = <100>;
+            require-prior-idle-ms = <100>; // Fix for "sticky" feeling; prevents combo if a key was pressed 150ms before
+            key-positions = <36 16 3>;   // ALT + F + E    (ALT F + 4 hehe)
             bindings = <&kp LA(F4)>;  // Alt + F4 https://zmk.dev/docs/keymaps/modifiers
         };
     };
