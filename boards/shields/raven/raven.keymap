@@ -200,11 +200,11 @@
                                                     &trans      &trans      &trans      &trans      &trans      &trans  
                 >;
             };
-        // Layer 5 (Activated on hold)
+        // Layer 5 (Activated on hold
         Shortcut_layer {
             display-name = "XCut";
             bindings = <
-                &soft_off       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2  &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_SEL 5  &trans          &trans      &soft_off       &trans          &kp INS      &kp PSCRN       &kp C_MUTE    &kp C_VOL_UP 
+                &soft_off       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2  &bt BT_SEL 3 &bt BT_SEL 4 &soft_off     &trans          &kp INS      &kp PSCRN       &kp C_MUTE    &kp C_VOL_UP 
                 &bootloader     &trans      &sleep_macro    &trans      &trans      &to 1       &bootloader     &kp C_PREV      &kp C_PP     &kp C_NEXT      &trans        &kp C_VOL_DN 
                 &trans          &trans      &trans          &trans      &trans      &trans      &trans          &trans          &trans       &trans          &trans        &trans 
                                                             &trans      &trans      &trans      &bt BT_CLR      &trans          &trans 
