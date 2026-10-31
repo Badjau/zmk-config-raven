@@ -1,6 +1,23 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#if defined(CONFIG_SHIELD_RAVEN_LEFT)
+// Blank left-handwire test, in physical order: top-right switch sends T.
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+        test_layer {
+            display-name = "Test";
+            bindings = <
+                &none  &none &none &none &none &kp T
+                &none  &none &none &none &none &none
+                &none  &none &none &none &none &none
+                &none  &none &none &none &none &none
+            >;
+        };
+    };
+};
+#else
 //https://zmk.dev/docs/keymaps/behaviors/sticky-key
 / {
     behaviors {
@@ -217,3 +234,4 @@
     hold-time-ms = <50>; // 'fix' for peripheral not catching sleep command sometimes
     split-peripheral-off-on-press; // peripheral sleeps first, then central after delay
 };
+#endif
