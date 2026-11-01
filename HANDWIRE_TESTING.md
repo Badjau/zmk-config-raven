@@ -12,11 +12,11 @@ The left overlay overrides the shared transform and scan settings. `raven.keymap
 
 The physical top-right key, intended as **T**, previously sent **Tab**. Its intended soldered connections (the correct pin labels in wiring.png) are:
 
-- P0.31 connects directly to the switch (blue wire).
-- P1.13 connects to the diode's cathode (striped end).
-- The diode's anode (unstriped end) connects to the other switch terminal.
+- Switch pin 1 connects directly to P0.31.
+- Switch pin 2 has the diode; its column wire connects to P1.13.
+- The latest hardware test works only with these plugs swapped under col2row. Therefore the intended plugs require the opposite scan direction: drive P1.13 and sense P0.31.
 
-Intended electrical path: `P0.31 -> switch -> diode anode -> cathode -> P1.13`. The drawing's current labels describe the reversed test plugs, not the intended connections. Firmware assigns P0.31 to column 0 (output) and P1.13 to row 0 (input) so the intended plugs still produce RC(0,0).
+The previous anode/cathode interpretation of wiring.png was incorrect. The config now uses row2col with P1.13 as firmware row 0 (output) and P0.31 as firmware column 0 (input). These firmware labels do not establish physical row/column orientation.
 
 With the GPIO arrays below, this is electrical `RC(0,0)`. Its previous Tab output came from the original transform/keymap placing `RC(0,0)` first. That output did not establish its physical location.
 
@@ -33,16 +33,16 @@ With the GPIO arrays below, this is electrical `RC(0,0)`. Its previous Tab outpu
 
 | Electrical column index | GPIO |
 | --- | --- |
-| 0 | P1.13 |
+| 0 | P0.31 |
 | 1 | P1.11 |
 | 2 | P0.10 |
 | 3 | P0.08 |
 | 4 | P1.06 |
 | 5 | P1.04 |
 
-The left scanner uses `col2row`: columns are active-high outputs, rows are active-high inputs with pull-downs. This matches the confirmed electrical path above. Do not infer diode direction solely from which wire is called a physical row or column.
+The left scanner uses `row2col`: rows are active-high outputs, columns are active-high inputs with pull-downs. This matches the confirmed electrical path above. Do not infer diode direction solely from which wire is called a physical row or column.
 
-UART0 is disabled on the left because P0.08 is a matrix column. Soft-off wakeup uses electrical column 4 (P1.06) as output and row 1 (P0.29) as input.
+UART0 is disabled on the left because P0.08 is a matrix column. Soft-off wakeup uses electrical row 1 (P0.29) as output and column 4 (P1.06) as input.
 
 ## Physical transform and blank keymap
 

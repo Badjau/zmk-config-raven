@@ -13,32 +13,32 @@
 };
 
 &kscan0 {
-    // Soldered wiring: column -> switch -> diode anode -> cathode -> row.
-    // Reference T: blue switch wire = P0.31; diode cathode wire = P1.13.
-    // Drive columns and sense rows; GPIO roles follow the soldered matrix.
-    diode-direction = "col2row";
-    // Physical rows, top to bottom.
-    row-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-                <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-                <&gpio0 2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
-                <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+    // Scan direction follows the hardware test: drive P1.13, sense P0.31.
+    // Reference T: switch pin 1 = P0.31; diode-side wire at pin 2 = P1.13.
+    // Firmware row/column indices are independent of physical wire orientation.
+    diode-direction = "row2col";
+    // Firmware rows; remaining physical positions still need verification.
+    row-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>,
+                <&gpio0 29 GPIO_ACTIVE_HIGH>,
+                <&gpio0 2  GPIO_ACTIVE_HIGH>,
+                <&gpio1 15 GPIO_ACTIVE_HIGH>;
 
     // Electrical columns, right to left when viewed from the keycap side.
-    col-gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>,
-                <&gpio1 11 GPIO_ACTIVE_HIGH>,
-                <&gpio0 10 GPIO_ACTIVE_HIGH>,
-                <&gpio0 8  GPIO_ACTIVE_HIGH>,
-                <&gpio1 6  GPIO_ACTIVE_HIGH>,
-                <&gpio1 4  GPIO_ACTIVE_HIGH>;
+    col-gpios = <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                <&gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                <&gpio1 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 };
 
 // Wake from soft off with electrical row 1, column 4 (physical row 1, column 1).
 &wakeup_key {
-    gpios = <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+    gpios = <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 };
 
 &wakeup_trigger {
-    extra-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+    extra-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
 };
 
 // P0.08 is now a matrix column, not a UART RX pin.
