@@ -2,17 +2,75 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #if defined(CONFIG_SHIELD_RAVEN_LEFT)
-// Blank left-handwire test, in physical order: top-right switch sends T.
+// Left 6x4 handwire, in physical order viewed from the keycap side.
+// Local layer indices: Base = 0, Num = 1, FN = 2.
 / {
+    behaviors {
+        left_num_taps: left_num_taps {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <140>;
+            bindings = <&sl 1>, <&to 1>;
+        };
+
+        left_num: left_num {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <140>;
+            quick-tap-ms = <0>;
+            flavor = "balanced";
+            bindings = <&mo>, <&left_num_taps>;
+        };
+
+        left_mod: left_mod {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <140>;
+            flavor = "hold-preferred";
+            hold-while-undecided;
+            hold-while-undecided-linger;
+            bindings = <&kp>, <&left_sticky_mod>;
+        };
+
+        left_sticky_mod: left_sticky_mod {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <250>;
+            quick-release;
+            ignore-modifiers;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
-        test_layer {
-            display-name = "Test";
+        left_base {
+            display-name = "Base";
             bindings = <
-                &none  &none &none &none &none &kp T
-                &none  &none &none &none &none &none
-                &none  &none &none &none &none &none
-                &none  &none &none &none &none &none
+                &kp TAB                 &kp Q       &kp W       &kp E       &kp R          &kp T
+                &kp ESC                 &kp A       &kp S       &kp D       &kp F          &kp G
+                &left_mod LSHFT LSHFT   &kp Z       &kp X       &kp C       &kp V          &kp B
+                &left_mod LCTRL LCTRL   &kp LGUI    &mo 2       &kp LALT    &left_num 1 1  &kp SPACE
+            >;
+        };
+
+        left_num_layer {
+            display-name = "Num";
+            bindings = <
+                &kp GRAVE   &kp N1      &kp N2      &kp N3      &kp N4      &kp N5
+                &trans      &kp EXCL    &kp AT      &kp HASH    &kp DLLR    &kp PRCNT
+                &trans      &kp LEFT    &kp UP      &kp DOWN    &kp RIGHT   &kp DEL
+                &trans      &trans      &trans      &trans      &to 0       &trans
+            >;
+        };
+
+        left_fn_layer {
+            display-name = "FN";
+            bindings = <
+                &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &kp F6
+                &kp F7      &kp F8      &kp F9      &kp F10     &kp F11     &kp F12
+                &trans      &trans      &trans      &trans      &trans      &trans
+                &trans      &trans      &trans      &trans      &trans      &trans
             >;
         };
     };

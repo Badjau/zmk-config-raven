@@ -2,23 +2,72 @@
 
 Updated: 2026-11-01. Branch: `left-handwire-test`.
 
+## Current keymap update
+
+The left blank test map described below has been replaced with a usable 24-key map.
+The wiring and transform verification notes below remain relevant.
+
+```text
+Tab    Q      W      E      R      T
+Esc    A      S      D      F      G
+Shift  Z      X      C      V      B
+Ctrl   GUI    FN     Alt    Num    Space
+```
+
+- Z is a plain letter; GUI has its own key below Z.
+- FN is momentary: hold to access F1-F6 on the top row and F7-F12 on the second row; release to return.
+- Num preserves hold for momentary access, tap for sticky access, and double tap to switch. Press Num again to leave the switched Num layer.
+- Num contains the original left numbers, symbols, and arrows. Esc remains Esc on Num, and Shift/Ctrl follow their new physical positions.
+- Shift and Ctrl preserve the original hold modifier / tap sticky modifier behavior.
+- The left map uses local layer indices Base=0, Num=1, FN=2. The original right/shared keymap remains in the other conditional branch unchanged.
+- This is the current left-only testing configuration. Pairing with the right half will require a unified transform and keymap; the left-only indices are not a finished split layout.
+
 ## Scope
 
 Test a left 6-column by 4-row ortholinear handwire, eventually paired with the existing Raven right split. Preserve the right split's pin configuration and existing keymap. Do not change shared matrix settings to fix left-only wiring.
 
 The left overlay overrides the shared transform and scan settings. `raven.keymap` selects a blank test keymap under `CONFIG_SHIELD_RAVEN_LEFT`; the original keymap remains in the other branch of that conditional.
 
-## Confirmed reference switch
+## Confirmed working wiring
 
-The physical top-right key, intended as **T**, previously sent **Tab**. Its intended soldered connections (the correct pin labels in wiring.png) are:
+**Hardware result:** the user confirmed T works with the intended connections after the scan-direction correction. Keep these connections; swapping the plugs is not required.
 
-- Switch pin 1 connects directly to P0.31.
-- Switch pin 2 has the diode; its column wire connects to P1.13.
-- The latest hardware test works only with these plugs swapped under col2row. Therefore the intended plugs require the opposite scan direction: drive P1.13 and sense P0.31.
+![User schematic: physical rows connect to switches, diode cathodes face switches, and diode anodes connect to physical columns](wiring.png)
 
-The previous anode/cathode interpretation of wiring.png was incorrect. The config now uses row2col with P1.13 as firmware row 0 (output) and P0.31 as firmware column 0 (input). These firmware labels do not establish physical row/column orientation.
+[Open the original wiring schematic](wiring.png). This is the user's final schematic and the primary reference for diode orientation. Its generic row/column labels describe physical wires, not the current firmware GPIO arrays. The drawing illustrates the circuit topology; it does not establish every GPIO or key position.
 
-With the GPIO arrays below, this is electrical `RC(0,0)`. Its previous Tab output came from the original transform/keymap placing `RC(0,0)` first. That output did not establish its physical location.
+For the top-right T reference switch:
+
+| Connection | Physical role in the schematic | Current firmware role |
+| --- | --- | --- |
+| P0.31 (`031`) -> switch pin 1 | Horizontal row wire | `col-gpios[0]`, input with pull-down |
+| P1.13 (`113`) -> diode anode | Vertical column wire | `row-gpios[0]`, active-high output |
+| Diode cathode (bar / striped end) -> switch pin 2 | Diode faces the switch | Conducts toward the switch and sensed input |
+
+When the switch closes, conventional current follows:
+
+```text
+P1.13 output -> diode anode -> diode cathode -> switch pin 2
+             -> closed switch -> switch pin 1 -> P0.31 input
+```
+
+The diode's **bar / striped end is toward switch pin 2**, not toward the physical column wire. Switch pin 1 and pin 2 are the user's reference names for the two switch terminals.
+
+In the schematic's physical terminology, this is **column-to-row** flow. In the current firmware arrays, it is **row-to-column**, so the working setting is `diode-direction = "row2col"`. The setting follows the firmware arrays, not how a wire looks from the keycap side.
+
+## Where debugging got lost
+
+The repeated failures came from combining several different questions and changing assumptions between tests:
+
+1. **Temporary plugs versus intended wiring.** The earlier image had both "current" and "correct" pin labels. "Current" described the reversed test plugs, whereas the intended connections were pin 1 -> P0.31 and the diode-side wire -> P1.13. The first fix mistakenly retained the temporary plug arrangement. The embedded final schematic replaces that earlier image.
+2. **Diode polarity was read backwards.** Earlier notes incorrectly put the cathode on the physical column wire. The final schematic puts the cathode toward the switch. A direction change also requires moving the input pull-downs to the pins being sensed; changing just the direction string is insufficient.
+3. **Physical and firmware row/column names were mixed.** P0.31 looks like a physical row but is currently in `col-gpios`; P1.13 looks like a physical column but is in `row-gpios`. Saying only "use col2row" was ambiguous. Always state the actual drive and sense pins first: **drive P1.13, sense P0.31**.
+4. **Electrical index was confused with physical position.** T is the sixth key from the left, viewed from the keycap side. Its current electrical coordinate is `RC(0,0)`, which the transform places at the sixth binding. Firmware column index 0 does not mean the physical leftmost key.
+5. **A detected key was mistaken for a complete layout check.** Getting Tab instead of T showed that a keypress was detected, but the transform/keymap assigned the wrong action. Getting T from one switch does not validate the other GPIOs or the full matrix.
+
+Before future changes, record the physical endpoints, diode stripe location, driven GPIO, sensed GPIO, and expected electrical coordinate. Keep the intended plugs fixed while testing scan direction. Verify detection first, then position mapping. Do not swap the plugs and change the firmware direction in the same test.
+
+The generated [4x4 reference SVG](wiring-4x4.svg) is supplementary. It illustrates the same diode path, but its T position is illustrative and it does not specify the rest of the keyboard's GPIOs.
 
 ## Current GPIO assignments
 
@@ -52,7 +101,7 @@ Three separate mappings are involved:
 2. The matrix transform orders those coordinates into physical key positions.
 3. Keymap bindings assign actions to those ordered positions.
 
-The current left transform assumes rows run top to bottom and electrical columns run **right to left when viewed from the keycap side**:
+The current transform places firmware row indices top to bottom and reverses firmware column indices in keymap order. This is the configured mapping, not a verified description of every physical wire:
 
 ```text
 RC(0,5) RC(0,4) RC(0,3) RC(0,2) RC(0,1) RC(0,0)
@@ -82,17 +131,18 @@ Both assigning T directly to the first electrical position and transforming that
 - `boards/shields/raven/raven.keymap`: conditional left test map and preserved original map.
 - `boards/shields/raven/raven_right.overlay`: existing right split; preserve it.
 - `boards/shields/raven/raven.dtsi`: shared defaults; left overrides them.
-- `wiring.png`: soldered reference switch and diode orientation; use the labels marked correct for intended GPIO connections.
+- `wiring.png`: user-created final schematic embedded above; physical wire topology and diode orientation.
+- `wiring-4x4.svg`: supplementary illustration, not a complete GPIO assignment diagram.
 
 ## Build and flash
 
 ```powershell
 git branch --show-current
-git add boards/shields/raven/raven_left.overlay boards/shields/raven/raven.keymap HANDWIRE_TESTING.md
+git add boards/shields/raven/raven_left.overlay boards/shields/raven/raven.keymap HANDWIRE_TESTING.md wiring.png wiring-4x4.svg
 git commit -m "Document and configure left handwire test layout"
 git push -u origin left-handwire-test
 ```
 
 The push triggers the repository's GitHub Actions firmware workflow. Download the successful run's firmware artifact, extract it, and flash only the `raven_left` UF2 to the left controller in bootloader mode. Keep the existing right controller firmware.
 
-Local firmware builds have not been run in this session because `west` is unavailable. Whitespace/diff checks passed for the latest code edits; hardware validation of the latest transform remains outstanding.
+Local firmware builds have not been run in this session because `west` is unavailable. Whitespace/diff checks passed for the latest code edits; the user confirmed the intended T wiring works. The rest of the matrix, full transform, and soft-off wakeup still need hardware validation.

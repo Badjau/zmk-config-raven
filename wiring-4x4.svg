@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="940" viewBox="0 0 1100 940">
+<rect width="1100" height="940" fill="#fff"/>
+<style>text{font-family:Arial,sans-serif;fill:#172b4d}.title{font-size:26px;font-weight:bold}.label{font-size:17px}.small{font-size:14px}.row{stroke:#0284c7;stroke-width:3;fill:none}.col{stroke:#dc2626;stroke-width:3;fill:none}.part{stroke:#172b4d;stroke-width:2.5;fill:white}</style>
+<defs><g id="key">
+<!-- Blue row connects to switch pin 1. Red column reaches diode anode. -->
+<path class="row" d="M80 0 V22"/>
+<circle class="part" cx="80" cy="25" r="3"/>
+<circle class="part" cx="80" cy="47" r="3"/>
+<path class="part" d="M80 25 L95 42"/>
+<path class="col" d="M80 50 V62 M80 88 V102 H0"/>
+<!-- Cathode bar faces the switch; triangle points upward, from column to switch. -->
+<path class="part" d="M67 65 H93 M80 67 L67 87 H93 Z"/>
+<circle cx="80" cy="0" r="4" fill="#0284c7"/>
+<circle cx="0" cy="102" r="4" fill="#dc2626"/>
+</g></defs>
+<text x="40" y="45" class="title">Your wiring ? 4 ? 4 reference schematic</text>
+<text x="40" y="76" class="label">Blue horizontal wires = physical rows. Red vertical wires = physical columns.</text>
+<text x="40" y="103" class="label">Switch pin 1 ? blue row. Switch pin 2 ? diode ? red column.</text>
+<text x="40" y="130" class="small">Diode polarity below is inferred from your latest test: cathode / stripe toward switch pin 2.</text>
+
+<path class="col" d="M235 178 V790"/><text x="207" y="165" class="small">Column 1</text>
+<path class="col" d="M435 178 V790"/><text x="407" y="165" class="small">Column 2</text>
+<path class="col" d="M635 178 V790"/><text x="607" y="165" class="small">Column 3</text>
+<path class="col" d="M835 178 V790"/><text x="807" y="165" class="small">Column 4</text>
+<path class="row" d="M140 220 H980"/><text x="40" y="226" class="label">Row 1</text>
+<path class="row" d="M140 365 H980"/><text x="40" y="371" class="label">Row 2</text>
+<path class="row" d="M140 510 H980"/><text x="40" y="516" class="label">Row 3</text>
+<path class="row" d="M140 655 H980"/><text x="40" y="661" class="label">Row 4</text>
+<use href="#key" x="235" y="220"/>
+<text x="341" y="263" class="small">R1 C1</text>
+<use href="#key" x="435" y="220"/>
+<text x="541" y="263" class="small">R1 C2</text>
+<use href="#key" x="635" y="220"/>
+<text x="741" y="263" class="small">R1 C3</text>
+<use href="#key" x="835" y="220"/>
+<text x="941" y="263" class="small">T reference*</text>
+<use href="#key" x="235" y="365"/>
+<text x="341" y="408" class="small">R2 C1</text>
+<use href="#key" x="435" y="365"/>
+<text x="541" y="408" class="small">R2 C2</text>
+<use href="#key" x="635" y="365"/>
+<text x="741" y="408" class="small">R2 C3</text>
+<use href="#key" x="835" y="365"/>
+<text x="941" y="408" class="small">R2 C4</text>
+<use href="#key" x="235" y="510"/>
+<text x="341" y="553" class="small">R3 C1</text>
+<use href="#key" x="435" y="510"/>
+<text x="541" y="553" class="small">R3 C2</text>
+<use href="#key" x="635" y="510"/>
+<text x="741" y="553" class="small">R3 C3</text>
+<use href="#key" x="835" y="510"/>
+<text x="941" y="553" class="small">R3 C4</text>
+<use href="#key" x="235" y="655"/>
+<text x="341" y="698" class="small">R4 C1</text>
+<use href="#key" x="435" y="655"/>
+<text x="541" y="698" class="small">R4 C2</text>
+<use href="#key" x="635" y="655"/>
+<text x="741" y="698" class="small">R4 C3</text>
+<use href="#key" x="835" y="655"/>
+<text x="941" y="698" class="small">R4 C4</text>
+
+<text x="144" y="207" class="label" style="fill:#0284c7;font-weight:bold">P0.31 ? pin 1 row wire (sense input)</text>
+<text x="843" y="785" class="label" style="fill:#dc2626;font-weight:bold">P1.13</text>
+<text x="843" y="807" class="small">Diode-side column</text>
+<text x="843" y="827" class="small">Drive output</text>
+<text x="40" y="854" class="label">When pressed: P1.13 ? diode anode ? cathode ? switch pin 2 ? pin 1 ? P0.31.</text>
+<text x="40" y="882" class="small">*T is shown at the right edge as a reference; on your actual keyboard it is physical key 6, not key 4.</text>
+<text x="40" y="906" class="small">Other GPIOs are deliberately unspecified. Wire crossings connect only where a dot is drawn.</text>
+<text x="40" y="929" class="small">Firmware currently calls P1.13 row 0 and P0.31 column 0; those labels differ from the physical wire directions.</text>
+</svg>
