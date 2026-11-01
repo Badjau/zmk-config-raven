@@ -2,6 +2,14 @@
 
 Updated: 2026-11-01. Branch: `left-handwire-test`.
 
+## Keymap selection correction
+
+The reported individual outputs (QWERT, then U/I/O/P/Backspace, then A/S/D/F/G) match the original 42-position split map being applied to the 24-position left transform. The keymap previously tested `CONFIG_SHIELD_RAVEN_LEFT`, a Kconfig symbol unavailable during the initial devicetree preprocessing pass, so it selected the original map.
+
+The left overlay now defines `RAVEN_LEFT_HANDWIRE` before the keymap is preprocessed. The keymap selects the 24-key left branch using that explicit marker. The right overlay does not define it and retains the original split keymap. Pin assignments and transform are unchanged by this correction.
+
+After rebuilding and flashing, individual rows should be Tab/Q/W/E/R/T, Esc/A/S/D/F/G, Shift/Z/X/C/V/B, and Ctrl/GUI/FN/Alt/Num/Space. Hold FN for F1-F6 on the first row and F7-F12 on the second row.
+
 ## Confirmed full pin mapping (supersedes earlier scan notes)
 
 The user confirmed the full pin order with T as the top-right anchor:
@@ -40,7 +48,7 @@ Ctrl   GUI    FN     Alt    Num    Space
 
 Test a left 6-column by 4-row ortholinear handwire, eventually paired with the existing Raven right split. Preserve the right split's pin configuration and existing keymap. Do not change shared matrix settings to fix left-only wiring.
 
-The left overlay overrides the shared transform and scan settings. `raven.keymap` selects a blank test keymap under `CONFIG_SHIELD_RAVEN_LEFT`; the original keymap remains in the other branch of that conditional.
+The left overlay overrides the shared transform and scan settings. `raven.keymap` selects a blank test keymap under the left-overlay marker `RAVEN_LEFT_HANDWIRE`; the original keymap remains in the other branch of that conditional.
 
 ## Confirmed working wiring
 

@@ -1,3 +1,7 @@
+// Devicetree overlays are processed before Kconfig symbols are available.
+// Select the left-only keymap explicitly in this preprocessing pass.
+#define RAVEN_LEFT_HANDWIRE 1
+
 #include "raven.dtsi"
 #include "raven-pinctrl.dtsi"
 
