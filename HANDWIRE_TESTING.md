@@ -2,6 +2,30 @@
 
 Updated: 2026-11-01. Branch: `left-handwire-test`.
 
+## USB scan logging for Num and Space
+
+The user verified both switch/diode connections in an isolated test. Columns are confirmed P1.11 (Num) and P1.13 (Space); do not change these assignments based on the missing output alone.
+
+`build.yaml` now additionally builds `raven-left-usb-debug` using the upstream `zmk-usb-logging` snippet. The normal build is retained. Flash the debug UF2 and connect via a USB data cable. On Windows, find its COM port in Device Manager and open it in a serial terminal (for example PuTTY, 115200 baud).
+
+Press working Alt, then Num, then Space individually, and capture press/release logs:
+
+- Alt: `Sending event at 3,2`, then `Row: 3, col: 2, position: 21`.
+- Num: `Sending event at 3,1`, then `Row: 3, col: 1, position: 22`.
+- Space: `Sending event at 3,0`, then `Row: 3, col: 0, position: 23`.
+
+These are expected patterns, not results observed on the hardware. Missing scanner events narrow the failure to scanning/input detection; scanner events followed by transform errors indicate mapping; correct position events with no host output direct investigation toward behaviors/HID. Include surrounding warnings/errors. Keep the existing FN probes available as a separate binding check. Remove the additional logging build after diagnosis.
+
+## Num / Space diagnostic probes
+
+With normal typing working except Num and Space, the FN layer temporarily maps the physical Num key to `1` and Space to `2`. Hold the working FN key and press each switch separately. FN+Q should send F2 as a control that FN is active.
+
+- If FN+Num sends `1` and FN+Space sends `2`, both switch positions register; investigate the normal bindings/layer behavior next.
+- If either is silent while FN+Q sends F2, changing the binding did not restore that position. Inspect its switch, diode, and matrix connections; this does not prove the exact failed component.
+- Num is row P1.15 / column P1.11; Space is row P1.15 / column P1.13.
+- Other bottom-row keys work, so inspect the P1.15 row-wire segment toward Num and Space, plus their individual solder joints and diode orientation. R/F/V and T/G/B can confirm those column paths work elsewhere.
+- Normal Base and Num layers, pin assignments, and the transform are unchanged. Restore the final two FN bottom-row bindings to `&trans` after diagnosis.
+
 ## Keymap selection correction
 
 The reported individual outputs (QWERT, then U/I/O/P/Backspace, then A/S/D/F/G) match the original 42-position split map being applied to the 24-position left transform. The keymap previously tested `CONFIG_SHIELD_RAVEN_LEFT`, a Kconfig symbol unavailable during the initial devicetree preprocessing pass, so it selected the original map.
