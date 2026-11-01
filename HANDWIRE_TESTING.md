@@ -2,6 +2,20 @@
 
 Updated: 2026-11-01. Branch: `left-handwire-test`.
 
+## Confirmed full pin mapping (supersedes earlier scan notes)
+
+The user confirmed the full pin order with T as the top-right anchor:
+
+- Physical rows, top to bottom: P0.31, P0.29, P0.02, P1.15.
+- Physical columns, right to left: P1.13, P1.11, P0.10, P0.09, P1.06, P1.04.
+- Rows are active-high inputs with pull-downs; columns are active-high outputs.
+- `diode-direction = "col2row"` now matches both the physical wiring and firmware arrays. T still drives P1.13 and senses P0.31; its electrical path has not changed.
+- The previous overlay had P0.31 and P1.13 assigned to opposite GPIO arrays and incorrectly used P0.08 instead of P0.09. Those assignments could test T but did not represent the complete matrix.
+- The existing reversed-column transform is retained: T is RC(0,0), at binding 5. Full keymap and FN behavior are unchanged.
+- Soft-off wake is configured for F: drive P1.11, sense P0.29. Hardware wake still needs testing.
+
+The older scan-direction, GPIO table, and inferred-mapping sections below describe the previous diagnostic configuration, not the current overlay. The full pin order is now user-confirmed; every switch still needs validation with the corrected firmware.
+
 ## Current keymap update
 
 The left blank test map described below has been replaced with a usable 24-key map.
