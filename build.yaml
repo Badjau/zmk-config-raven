@@ -5,3 +5,6 @@ include:
     shield: raven_left nice_oled
     snippet: zmk-usb-logging
     artifact-name: raven-left-usb-debug
+  - board: nice_nano_v2
+    shield: raven_right
+    artifact-name: raven-right-handwire

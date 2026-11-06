@@ -76,6 +76,61 @@
         };
     };
 };
+
+#elif defined(RAVEN_RIGHT_HANDWIRE)
+// Standalone right handwire. Base=0, Nav=1, XCut=2.
+/ {
+    behaviors {
+        right_mod: right_mod {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <140>;
+            flavor = "hold-preferred";
+            hold-while-undecided;
+            hold-while-undecided-linger;
+            bindings = <&kp>, <&right_sticky_mod>;
+        };
+        right_sticky_mod: right_sticky_mod {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <250>;
+            quick-release;
+            ignore-modifiers;
+        };
+    };
+    keymap {
+        compatible = "zmk,keymap";
+        right_base {
+            display-name = "Base";
+            bindings = <
+                &kp Y     &kp U    &kp I                   &kp O                     &kp P       &kp BSPC
+                &kp H     &kp J    &kp K                   &kp L                     &kp SEMI    &kp APOS
+                &kp N     &kp M    &kp COMMA               &kp DOT                   &kp SLASH   &right_mod RSHFT RSHFT
+                &kp DEL   &mo 1    &right_mod LALT LALT    &right_mod LCTRL LCTRL    &mo 2       &kp ENTER
+            >;
+        };
+        right_nav {
+            display-name = "Nav";
+            bindings = <
+                &trans    &trans     &kp UP     &trans      &kp HOME    &kp END
+                &trans    &kp LEFT   &kp DOWN   &kp RIGHT   &kp PG_UP   &kp PG_DN
+                &trans    &trans     &trans     &trans      &trans      &trans
+                &trans    &trans     &trans     &trans      &trans      &trans
+            >;
+        };
+        right_xcut {
+            display-name = "XCut";
+            bindings = <
+                &soft_off     &trans       &kp INS    &kp PSCRN    &kp C_MUTE   &kp C_VOL_UP
+                &bootloader   &kp C_PREV   &kp C_PP   &kp C_NEXT   &trans       &kp C_VOL_DN
+                &trans        &trans       &trans     &trans       &trans       &trans
+                &bt BT_CLR    &trans       &trans     &trans       &trans       &trans
+            >;
+        };
+    };
+};
+
 #else
 //https://zmk.dev/docs/keymaps/behaviors/sticky-key
 / {
@@ -94,7 +149,7 @@
             hold-while-undecided;
             hold-while-undecided-linger;  // prevents shift release between hold and sticky
         };
-            
+
         skq: sticky_key_quick_release {
             compatible = "zmk,behavior-sticky-key";
             #binding-cells = <1>;
@@ -129,7 +184,7 @@
             label = "NOT_SO_STICKY";
             #binding-cells = <1>;
             bindings = <&mo>;
-            release-after-ms = <800>; 
+            release-after-ms = <800>;
             ignore-modifiers;
             //no 'quick-release' makes it linger even after a keypress
         };
@@ -205,13 +260,13 @@
         /*
         spc_del {
             timeout-ms = <50>;
-            key-positions = <29 38>;   // B + SPC   
+            key-positions = <29 38>;   // B + SPC
             bindings = <&kp DEL>;
         };
         */
         xcut_layer {
             timeout-ms = <250>;
-            key-positions = <34 35>;   // SLASH + LSHFT   
+            key-positions = <34 35>;   // SLASH + LSHFT
             bindings = <&mo 5>;
         };
 
@@ -223,46 +278,46 @@
         };
     };
 
-    keymap {    
+    keymap {
         compatible = "zmk,keymap";
         default_layer {
             display-name = "Base";
-            bindings = <   
-                &kp TAB             &kp Q           &kp W       &kp E       &kp R       &kp T       &kp Y      &kp U        &kp I       &kp O       &kp P       &kp BSPC  
-                &mt LSHFT LSHFT     &kp A           &kp S       &kp D       &kp F       &kp G       &kp H      &kp J        &kp K       &kp L       &kp SEMI    &kp APOS   
+            bindings = <
+                &kp TAB             &kp Q           &kp W       &kp E       &kp R       &kp T       &kp Y      &kp U        &kp I       &kp O       &kp P       &kp BSPC
+                &mt LSHFT LSHFT     &kp A           &kp S       &kp D       &kp F       &kp G       &kp H      &kp J        &kp K       &kp L       &kp SEMI    &kp APOS
                 &mt LCTRL LCTRL     &win_z LGUI Z   &kp X       &kp C       &kp V       &kp B       &kp N      &kp M        &kp COMMA   &kp DOT     &kp SLASH   &mt RSHFT RSHFT //used to be "mo 5"
-                                                                &kp LALT    &slmo1 2 2  &kp SPACE   &kp DEL    &slmo2 4 4   &kp ENTER            
+                                                                &kp LALT    &slmo1 2 2  &kp SPACE   &kp DEL    &slmo2 4 4   &kp ENTER
             >;
         };
-        // Layer 1 (Activated on Tap) Game layer, unused really. Remove? 
+        // Layer 1 (Activated on Tap) Game layer, unused really. Remove?
         Game_layer {
             display-name = "Game";
-            bindings = <   
-                &kp N1      &kp TAB         &kp Q       &kp W       &kp E       &kp R       &kp Y      &kp U        &kp I       &kp O       &kp P       &kp BSPC  
-                &kp N2      &kp LSHFT       &kp A       &kp S       &kp D       &kp F       &kp H      &kp J        &kp K       &kp L       &kp SEMI    &kp APOS   
+            bindings = <
+                &kp N1      &kp TAB         &kp Q       &kp W       &kp E       &kp R       &kp Y      &kp U        &kp I       &kp O       &kp P       &kp BSPC
+                &kp N2      &kp LSHFT       &kp A       &kp S       &kp D       &kp F       &kp H      &kp J        &kp K       &kp L       &kp SEMI    &kp APOS
                 &kp N3      &kp LCTRL       &kp Z       &kp X       &kp C       &kp V       &kp N      &kp M        &kp COMMA   &kp DOT     &kp SLASH   &to 0
-                                                        &kp LALT    &mo 2       &kp SPACE   &kp DEL    &mo 4        &kp ENTER       
+                                                        &kp LALT    &mo 2       &kp SPACE   &kp DEL    &mo 4        &kp ENTER
             >;
         };
         // Layer 2 (Activated on hold)
         Num_layer {
             display-name = "Num";
             bindings = <
-                &kp GRAVE       &kp N1      &kp N2      &kp N3      &kp N4      &kp N5      &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp BSPC 
+                &kp GRAVE       &kp N1      &kp N2      &kp N3      &kp N4      &kp N5      &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp BSPC
                 &skl LSHFT      &kp EXCL    &kp AT      &kp HASH    &kp DLLR    &kp PRCNT   &kp CARET   &kp AMPS    &kp STAR    &kp LPAR    &kp RPAR    &kp MINUS
                 &skl LCTRL      &kp LEFT    &kp UP      &kp DOWN    &kp RIGHT   &kp DEL     &kp LBKT    &kp RBKT    &trans      &trans      &kp BSLH    &kp EQUAL
-                                                        &kp LALT    &to 0       &trans      &trans      &to 0       &trans       
+                                                        &kp LALT    &to 0       &trans      &trans      &to 0       &trans
             >;
         };
 
         // Layer 3 (Activated on tap)
         F_keys {
-            display-name = "FN"; 
+            display-name = "FN";
             bindings = <
                 &kp F1          &kp F2      &kp F3      &kp F4      &kp F5      &kp F6      &kp F7      &kp F8      &kp F9      &kp F10     &kp F11     &kp F12
                 &trans          &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans
-                &trans          &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans 
-                                                        &trans      &to 0       &trans      &kp K_APP   &to 0       &trans       
+                &trans          &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans
+                                                        &trans      &to 0       &trans      &kp K_APP   &to 0       &trans
             >;
         };
 
@@ -270,24 +325,24 @@
         Nav_layer {
             display-name = "Nav";
             bindings = <
-                &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp UP      &trans      &kp HOME       &kp END 
-                &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp LEFT    &kp DOWN    &kp RIGHT   &kp PG_UP      &kp PG_DN 
-                &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans         &trans 
-                                                    &trans      &trans      &trans      &trans      &trans      &trans  
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp UP      &trans      &kp HOME       &kp END
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp LEFT    &kp DOWN    &kp RIGHT   &kp PG_UP      &kp PG_DN
+                &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans         &trans
+                                                    &trans      &trans      &trans      &trans      &trans      &trans
                 >;
             };
         // Layer 5 (Activated on hold
         Shortcut_layer {
             display-name = "XCut";
             bindings = <
-                &soft_off       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2  &bt BT_SEL 3 &bt BT_SEL 4 &soft_off     &trans          &kp INS      &kp PSCRN       &kp C_MUTE    &kp C_VOL_UP 
-                &bootloader     &trans      &sleep_macro    &trans      &trans      &to 1       &bootloader     &kp C_PREV      &kp C_PP     &kp C_NEXT      &trans        &kp C_VOL_DN 
-                &trans          &trans      &trans          &trans      &trans      &trans      &trans          &trans          &trans       &trans          &trans        &trans 
-                                                            &trans      &trans      &trans      &bt BT_CLR      &trans          &trans 
+                &soft_off       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2  &bt BT_SEL 3 &bt BT_SEL 4 &soft_off     &trans          &kp INS      &kp PSCRN       &kp C_MUTE    &kp C_VOL_UP
+                &bootloader     &trans      &sleep_macro    &trans      &trans      &to 1       &bootloader     &kp C_PREV      &kp C_PP     &kp C_NEXT      &trans        &kp C_VOL_DN
+                &trans          &trans      &trans          &trans      &trans      &trans      &trans          &trans          &trans       &trans          &trans        &trans
+                                                            &trans      &trans      &trans      &bt BT_CLR      &trans          &trans
             >;
         };
     };
-};  
+};
 
 &soft_off {
     hold-time-ms = <50>; // 'fix' for peripheral not catching sleep command sometimes
