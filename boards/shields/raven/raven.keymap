@@ -1,9 +1,9 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
-#if defined(RAVEN_LEFT_HANDWIRE)
-// Left 6x4 handwire, in physical order viewed from the keycap side.
-// Local layer indices: Base = 0, Num = 1, FN = 2.
+#if defined(RAVEN_LEFT_HANDWIRE) || defined(RAVEN_RIGHT_HANDWIRE)
+// Shared 4x12 handwire map: left central, right peripheral.
+// Layers: Base=0, Num=1, FN=2, Nav=3, XCut=4.
 / {
     behaviors {
         left_num_taps: left_num_taps {
@@ -40,47 +40,7 @@
             quick-release;
             ignore-modifiers;
         };
-    };
 
-    keymap {
-        compatible = "zmk,keymap";
-        left_base {
-            display-name = "Base";
-            bindings = <
-                &kp TAB                 &kp Q       &kp W       &kp E       &kp R          &kp T
-                &kp ESC                 &kp A       &kp S       &kp D       &kp F          &kp G
-                &left_mod LSHFT LSHFT   &kp Z       &kp X       &kp C       &kp V          &kp B
-                &left_mod LCTRL LCTRL   &kp LGUI    &mo 2       &kp LALT    &left_num 1 1  &kp SPACE
-            >;
-        };
-
-        left_num_layer {
-            display-name = "Num";
-            bindings = <
-                &kp GRAVE   &kp N1      &kp N2      &kp N3      &kp N4      &kp N5
-                &trans      &kp EXCL    &kp AT      &kp HASH    &kp DLLR    &kp PRCNT
-                &trans      &kp LEFT    &kp UP      &kp DOWN    &kp RIGHT   &kp DEL
-                &trans      &trans      &trans      &trans      &to 0       &trans
-            >;
-        };
-
-        left_fn_layer {
-            display-name = "FN";
-            bindings = <
-                &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &kp F6
-                &kp F7      &kp F8      &kp F9      &kp F10     &kp F11     &kp F12
-                &trans      &trans      &trans      &trans      &trans      &trans
-                // Diagnostic probes: hold FN, then Num -> 1 or Space -> 2.
-                &trans      &trans      &trans      &trans      &kp N1      &kp N2
-            >;
-        };
-    };
-};
-
-#elif defined(RAVEN_RIGHT_HANDWIRE)
-// Standalone right handwire. Base=0, Nav=1, XCut=2.
-/ {
-    behaviors {
         right_mod: right_mod {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -101,31 +61,49 @@
     };
     keymap {
         compatible = "zmk,keymap";
-        right_base {
+        handwire_base {
             display-name = "Base";
             bindings = <
-                &kp Y     &kp U    &kp I                   &kp O                     &kp P       &kp BSPC
-                &kp H     &kp J    &kp K                   &kp L                     &kp SEMI    &kp APOS
-                &kp N     &kp M    &kp COMMA               &kp DOT                   &kp SLASH   &right_mod RSHFT RSHFT
-                &kp DEL   &mo 1    &right_mod LALT LALT    &right_mod LCTRL LCTRL    &mo 2       &kp ENTER
+                &kp TAB   &kp Q   &kp W   &kp E   &kp R   &kp T     &kp Y   &kp U   &kp I   &kp O   &kp P   &kp BSPC
+                &kp ESC   &kp A   &kp S   &kp D   &kp F   &kp G     &kp H   &kp J   &kp K   &kp L   &kp SEMI   &kp APOS
+                &left_mod LSHFT LSHFT   &kp Z   &kp X   &kp C   &kp V   &kp B     &kp N   &kp M   &kp COMMA   &kp DOT   &kp SLASH   &right_mod RSHFT RSHFT
+                &left_mod LCTRL LCTRL   &kp LGUI   &mo 2   &kp LALT   &left_num 1 1   &kp SPACE     &kp DEL   &mo 3   &right_mod LALT LALT   &right_mod LCTRL LCTRL   &mo 4   &kp ENTER
             >;
         };
-        right_nav {
+        handwire_num {
+            display-name = "Num";
+            bindings = <
+                &kp GRAVE   &kp N1   &kp N2   &kp N3   &kp N4   &kp N5     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &kp EXCL   &kp AT   &kp HASH   &kp DLLR   &kp PRCNT     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &kp LEFT   &kp UP   &kp DOWN   &kp RIGHT   &kp DEL     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &trans   &trans   &trans   &to 0   &trans     &trans   &trans   &trans   &trans   &trans   &trans
+            >;
+        };
+        handwire_fn {
+            display-name = "FN";
+            bindings = <
+                &kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6     &trans   &trans   &trans   &trans   &trans   &trans
+                &kp F7   &kp F8   &kp F9   &kp F10   &kp F11   &kp F12     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &trans   &trans   &trans   &kp N1   &kp N2     &trans   &trans   &trans   &trans   &trans   &trans
+            >;
+        };
+        handwire_nav {
             display-name = "Nav";
             bindings = <
-                &trans    &trans     &kp UP     &trans      &kp HOME    &kp END
-                &trans    &kp LEFT   &kp DOWN   &kp RIGHT   &kp PG_UP   &kp PG_DN
-                &trans    &trans     &trans     &trans      &trans      &trans
-                &trans    &trans     &trans     &trans      &trans      &trans
+                &trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &kp UP   &trans   &kp HOME   &kp END
+                &trans   &trans   &trans   &trans   &trans   &trans     &trans   &kp LEFT   &kp DOWN   &kp RIGHT   &kp PG_UP   &kp PG_DN
+                &trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans   &trans
             >;
         };
-        right_xcut {
+        handwire_xcut {
             display-name = "XCut";
             bindings = <
-                &soft_off     &trans       &kp INS    &kp PSCRN    &kp C_MUTE   &kp C_VOL_UP
-                &bootloader   &kp C_PREV   &kp C_PP   &kp C_NEXT   &trans       &kp C_VOL_DN
-                &trans        &trans       &trans     &trans       &trans       &trans
-                &bt BT_CLR    &trans       &trans     &trans       &trans       &trans
+                &trans   &trans   &trans   &trans   &trans   &trans     &soft_off   &trans   &kp INS   &kp PSCRN   &kp C_MUTE   &kp C_VOL_UP
+                &trans   &trans   &trans   &trans   &trans   &trans     &bootloader   &kp C_PREV   &kp C_PP   &kp C_NEXT   &trans   &kp C_VOL_DN
+                &trans   &trans   &trans   &trans   &trans   &trans     &trans   &trans   &trans   &trans   &trans   &trans
+                &trans   &trans   &trans   &trans   &trans   &trans     &bt BT_CLR   &trans   &trans   &trans   &trans   &trans
             >;
         };
     };

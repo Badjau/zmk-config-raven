@@ -1,7 +1,8 @@
 # Right 6x4 ortho handwire
 
 The right handwire uses the original Raven right-side bindings as its base.
-The completed left-handwire configuration is unchanged.
+The left remains central and the right is peripheral. Both use a shared
+48-key transform/keymap. Left wiring and existing key bindings are preserved.
 
 Viewed from the keycap side:
 
@@ -14,7 +15,9 @@ Del    Nav    Alt    Ctrl   XCut   Enter
 
 Columns, left to right: P1.04, P0.09, P0.10, P1.11, P1.13, P1.15.
 Rows, top to bottom: P0.24, P1.00, P0.11, P1.06.
-The transform maps all 24 switches in row-major physical order.
+The shared transform interleaves six left keys and six right keys per row.
+The right scanner uses a column offset of 6; the left retains reversed
+electrical column order. Layers: Base=0, Num=1, FN=2, Nav=3, XCut=4.
 
 Diode polarity is assumed to match the completed left handwire: columns
 are active-high outputs, rows are inputs with pull-downs, and diode stripes
@@ -35,10 +38,10 @@ Shift, Alt, and Ctrl hold as modifiers and tap as quick sticky modifiers.
 
 `build.yaml` adds the `raven-right-handwire` artifact for `nice_nano_v2`
 with shield `raven_right`. Flash this artifact to the right controller.
-It is configured as a standalone central so its 24-key map can be tested
-over USB or Bluetooth. It is not yet a paired split configuration: pairing
-with the left requires a shared full-board keymap/transform and restoring
-the right peripheral role.
+Build and flash the updated left artifact as well: the central needs the
+shared map to interpret right-side positions. The left connects to the host
+via USB/Bluetooth; the right sends positions to the left over split BLE.
+The right is explicitly configured with `CONFIG_ZMK_SPLIT_ROLE_CENTRAL=n`.
 
 The OLED is disabled, and the build omits `nice_oled`, because its existing
 SDA/SCL pins P1.00/P0.11 are now matrix rows. An OLED requires separate,
